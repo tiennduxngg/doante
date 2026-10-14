@@ -102,35 +102,28 @@ function donateNow() {
         return;
     }
 
-    // Thông tin chuyển khoản cần được chủ website cấu hình.
-    const bankCode = "TPB";
-    const accountNumber = document.getElementById("accountNumber").textContent.trim();
+    const bankCode = "TPBank";
+    const accountNumber = "11111190207";
 
-    if (!/^\d+$/.test(accountNumber) || accountNumber === "11111190207") {
-        showToast("Chủ website cần cập nhật số tài khoản thật trước!");
-        return;
-    }
+    const transferContent = (`DONATE ${name} ${message}`)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9 ]/g, "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .slice(0, 50);
 
-    const transferContent = `DONATE ${name}`.slice(0, 50);
-    const paymentURL =
-        `https://qr.sepay.vn/img?bank=${encodeURIComponent(bankCode)}` +
-        `&acc=${encodeURIComponent(accountNumber)}` +
-        `&template=compact&amount=${amount}` +
-        `&des=${encodeURIComponent(transferContent)}`;
+    const paymentURL = new URL("https://qr.sepay.vn/img");
 
-    const newWindow = window.open(paymentURL, "_blank");
+    paymentURL.searchParams.set("bank", bankCode);
+    paymentURL.searchParams.set("acc", accountNumber);
+    paymentURL.searchParams.set("template", "compact");
+    paymentURL.searchParams.set("amount", String(amount));
+    paymentURL.searchParams.set("des", transferContent || "DONATE");
 
-    if (!newWindow) {
-        showToast("Trình duyệt chặn cửa sổ mới. Hãy cho phép mở trang thanh toán.");
-        return;
-    }
-
-    showToast(
-        message
-            ? `Đã tạo mã chuyển khoản. Lời nhắn: ${message}`
-            : "Đã tạo mã chuyển khoản. Hãy kiểm tra thông tin trước khi trả tiền."
-    );
+    window.location.href = paymentURL.toString();
 }
+    
 
 function copyAccount() {
     const account = document.getElementById("accountNumber").textContent.trim();
