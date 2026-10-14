@@ -1,1 +1,151 @@
+// DỮ LIỆU MẪU: Hãy thay bằng dữ liệu thật của bạn.
+const donors = [
+    { name: "Nguyen Van A", amount: 100000 },
+    { name: "Liam Gaming", amount: 80000 },
+    { name: "Tran Van B", amount: 50000 },
+    { name: "Minh Anh", amount: 40000 },
+    { name: "Hoang Nam", amount: 30000 },
+    { name: "Duc Anh", amount: 20000 },
+    { name: "Thanh Tuan", amount: 20000 },
+    { name: "Anonymous", amount: 10000 }
+];
 
+const formatMoney = amount =>
+    new Intl.NumberFormat("vi-VN").format(amount) + "đ";
+
+function renderLeaderboard() {
+    const sorted = [...donors].sort((a, b) => b.amount - a.amount);
+
+    const medals = ["🥇", "🥈", "🥉"];
+    const podiumOrder = [
+        sorted[1] || sorted[0],
+        sorted[0],
+        sorted[2] || sorted[0]
+    ];
+
+    document.getElementById("podium").innerHTML =
+        podiumOrder.map((donor, index) => {
+            const actualRank = index === 0 ? 2 : index === 1 ? 1 : 3;
+            const first = actualRank === 1 ? "first" : "";
+
+            return `
+                <div class="podium-card ${first}">
+                    <div class="medal">${medals[actualRank - 1]}</div>
+                    <h3>${escapeHTML(donor.name)}</h3>
+                    <p>${formatMoney(donor.amount)}</p>
+                    <small>TOP ${actualRank}</small>
+                </div>
+            `;
+        }).join("");
+
+    document.getElementById("donorList").innerHTML =
+        sorted.map((donor, index) => `
+            <div class="donor-row">
+                <span class="rank">#${index + 1}</span>
+                <span>${escapeHTML(donor.name)}</span>
+                <span class="money">${formatMoney(donor.amount)}</span>
+            </div>
+        `).join("");
+
+    const total = donors.reduce((sum, donor) => sum + donor.amount, 0);
+
+    document.getElementById("total").textContent = formatMoney(total);
+    document.getElementById("donorCount").textContent = donors.length;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[char]);
+}
+
+function selectAmount(amount) {
+    document.getElementById("amount").value = amount;
+
+    document.querySelectorAll(".amounts button").forEach(button => {
+        button.classList.toggle(
+            "active",
+            Number(button.textContent.replace(/\D/g, "")) === amount
+        );
+    });
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+function donateNow() {
+    const name = document.getElementById("name").value.trim();
+    const amount = Number(document.getElementById("amount").value);
+    const message = document.getElementById("message").value.trim();
+
+    if (!name) {
+        showToast("Vui lòng nhập tên hiển thị!");
+        return;
+    }
+
+    if (!Number.isSafeInteger(amount) || amount < 1000) {
+        showToast("Vui lòng nhập số tiền từ 1.000đ trở lên!");
+        return;
+    }
+
+    // Thông tin chuyển khoản cần được chủ website cấu hình.
+    const bankCode = "MB";
+    const accountNumber = document.getElementById("accountNumber").textContent.trim();
+
+    if (!/^\d+$/.test(accountNumber) || accountNumber === "0123456789") {
+        showToast("Chủ website cần cập nhật số tài khoản thật trước!");
+        return;
+    }
+
+    const transferContent = `DONATE ${name}`.slice(0, 50);
+    const paymentURL =
+        `https://qr.sepay.vn/img?bank=${encodeURIComponent(bankCode)}` +
+        `&acc=${encodeURIComponent(accountNumber)}` +
+        `&template=compact&amount=${amount}` +
+        `&des=${encodeURIComponent(transferContent)}`;
+
+    const newWindow = window.open(paymentURL, "_blank");
+
+    if (!newWindow) {
+        showToast("Trình duyệt chặn cửa sổ mới. Hãy cho phép mở trang thanh toán.");
+        return;
+    }
+
+    showToast(
+        message
+            ? `Đã tạo mã chuyển khoản. Lời nhắn: ${message}`
+            : "Đã tạo mã chuyển khoản. Hãy kiểm tra thông tin trước khi trả tiền."
+    );
+}
+
+function copyAccount() {
+    const account = document.getElementById("accountNumber").textContent.trim();
+
+    if (!navigator.clipboard) {
+        showToast("Hãy sao chép số tài khoản thủ công!");
+        return;
+    }
+
+    navigator.clipboard.writeText(account)
+        .then(() => showToast("Đã sao chép số tài khoản!"))
+        .catch(() => showToast("Không thể sao chép. Hãy thử lại!"));
+}
+
+// Thông tin ngân hàng — thay bằng thông tin thật.
+document.getElementById("bankName").textContent = "Tp Bank";
+document.getElementById("accountName").textContent = "PHAM TIEN DUNG";
+document.getElementById("accountNumber").textContent = "11111190207";
+
+renderLeaderboard();
