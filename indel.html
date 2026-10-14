@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+    <a href="#" class="logo">DONATE<span> CENTER</span></a>
+    <a href="#donate" class="header-btn">Ủng hộ ngay ↗</a>
+</header>
+
+<section class="hero">
+    <div class="badge">✦ SUPPORT & DONATE</div>
+
+    <h1>CÙNG NHAU<br>
+        <span>TẠO NÊN ĐIỀU</span><br>
+        TUYỆT VỜI
+    </h1>
+
+    <p>Mỗi sự ủng hộ của bạn đều là động lực để mình
+       tiếp tục phát triển và mang đến những nội dung tốt hơn.</p>
+
+    <a href="#donate" class="main-btn">💜 DONATE NGAY</a>
+</section>
+
+<section class="stats">
+    <div class="stat-card">
+        <span>TỔNG DONATE</span>
+        <h2 id="total">350.000đ</h2>
+    </div>
+
+    <div class="stat-card">
+        <span>NGƯỜI ỦNG HỘ</span>
+        <h2 id="donorCount">8</h2>
+    </div>
+
+    <div class="stat-card">
+        <span>MỤC TIÊU</span>
+        <h2>5.000.000đ</h2>
+    </div>
+</section>
+
+<section class="section" id="leaderboard">
+    <div class="section-heading">
+        <div>
+            <span class="sub-title">HALL OF FAME</span>
+            <h2>🏆 Bảng xếp hạng Donate</h2>
+        </div>
+        <span class="live">● TOP DONOR</span>
+    </div>
+
+    <div class="podium" id="podium"></div>
+
+    <div class="donor-table">
+        <div class="table-head">
+            <span>HẠNG</span>
+            <span>NGƯỜI ỦNG HỘ</span>
+            <span>SỐ TIỀN</span>
+        </div>
+        <div id="donorList"></div>
+    </div>
+</section>
+
+<section class="section" id="donate">
+    <div class="section-heading">
+        <div>
+            <span class="sub-title">YOUR SUPPORT MATTERS</span>
+            <h2>💎 Chọn mức Donate</h2>
+        </div>
+    </div>
+
+    <div class="amounts">
+        <button onclick="selectAmount(10000)">10.000đ</button>
+        <button onclick="selectAmount(20000)">20.000đ</button>
+        <button onclick="selectAmount(50000)">50.000đ</button>
+        <button onclick="selectAmount(100000)">100.000đ</button>
+        <button onclick="selectAmount(200000)">200.000đ</button>
+        <button onclick="selectAmount(500000)">500.000đ</button>
+    </div>
+
+    <div class="donate-box">
+        <label for="name">Tên hiển thị</label>
+        <input id="name" type="text" placeholder="Nhập tên của bạn">
+
+        <label for="amount">Số tiền Donate (VNĐ)</label>
+        <input id="amount" type="number" min="1000"
+               placeholder="Ví dụ: 50000">
+
+        <label for="message">Lời nhắn</label>
+        <textarea id="message" placeholder="Gửi lời nhắn của bạn..."></textarea>
+
+        <button class="main-btn full-btn" onclick="donateNow()">
+            💜 XÁC NHẬN DONATE
+        </button>
+
+        <p class="note">
+            Đây là giao diện mẫu. Nút xác nhận sẽ tạo nội dung
+            chuyển khoản, không tự động trừ tiền.
+        </p>
+    </div>
+</section>
+
+<section class="section transfer">
+    <span class="sub-title">BANK TRANSFER</span>
+    <h2>💳 Thông tin chuyển khoản</h2>
+
+    <div class="bank-card">
+        <div class="bank-info">
+            <p>NGÂN HÀNG</p>
+            <h3 id="bankName">MB Bank</h3>
+
+            <p>CHỦ TÀI KHOẢN</p>
+            <h3 id="accountName">PHAM TIEN DUNG</h3>
+
+            <p>SỐ TÀI KHOẢN</p>
+            <div class="account">
+                <h3 id="accountNumber">0123456789</h3>
+                <button onclick="copyAccount()">SAO CHÉP</button>
+            </div>
+        </div>
+
+        <div class="qr-placeholder">
+            <div>▦</div>
+            <p>QR THANH TOÁN</p>
+            <small>Thay bằng ảnh QR của bạn</small>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <a href="#" class="logo">DONATE<span> CENTER</span></a>
+    <p>Cảm ơn bạn đã luôn đồng hành và ủng hộ ❤️</p>
+    <small>© 2026 Donate Center. All rights reserved.</small>
+</footer>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
