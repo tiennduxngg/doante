@@ -343,7 +343,7 @@ button {
 
 .bank-card {
     display: grid;
-    grid-template-columns: 1fr 200px;
+    grid-template-columns: 1fr 150px;
     gap: 25px;
     align-items: center;
     padding: 30px;
@@ -504,7 +504,7 @@ footer small {
     }
 
     .qr-placeholder {
-        width: 180px;
+        width: 150px;
         margin: auto;
     }
 
