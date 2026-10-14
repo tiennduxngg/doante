@@ -102,10 +102,10 @@ function donateNow() {
     }
 
     // Thông tin chuyển khoản cần được chủ website cấu hình.
-    const bankCode = "MB";
+    const bankCode = "TPB";
     const accountNumber = document.getElementById("accountNumber").textContent.trim();
 
-    if (!/^\d+$/.test(accountNumber) || accountNumber === "0123456789") {
+    if (!/^\d+$/.test(accountNumber) || accountNumber === "11111190207") {
         showToast("Chủ website cần cập nhật số tài khoản thật trước!");
         return;
     }
