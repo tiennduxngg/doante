@@ -8,6 +8,7 @@ const donors = [
     { name: "Minh Phương", amount: 5000 },
     { name: "Tiến Dũng", amount: 2000 },
      { name: "Ngọc Anh", amount: 10000 },
+     { name: "Ngọc Lan", amount: 10000 },
     { name: "Sao Mai", amount: 2000 }
 ];
 
