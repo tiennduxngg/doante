@@ -1,13 +1,14 @@
 // DỮ LIỆU MẪU: Hãy thay bằng dữ liệu thật của bạn.
 const donors = [
-    { name: "Nguyen Van A", amount: 100000 },
-    { name: "Liam Gaming", amount: 80000 },
-    { name: "Tran Van B", amount: 50000 },
-    { name: "Minh Anh", amount: 40000 },
-    { name: "Hoang Nam", amount: 30000 },
-    { name: "Duc Anh", amount: 20000 },
-    { name: "Thanh Tuan", amount: 20000 },
-    { name: "Anonymous", amount: 10000 }
+    { name: "Nguyễn Hoàng Phong ", amount: 41000 },
+    { name: "Xuân Mai", amount: 15000 },
+    { name: "Khánh Huyền", amount: 6000 },
+    { name: "Bích Diệp", amount: 6000 },
+    { name: "Phương Linh", amount: 10000 },
+    { name: "Minh Phương", amount: 5000 },
+    { name: "Tiến Dũng", amount: 2000 },
+     { name: "Ngọc Anh", amount: 10000 },
+    { name: "Sao Mai", amount: 2000 }
 ];
 
 const formatMoney = amount =>
